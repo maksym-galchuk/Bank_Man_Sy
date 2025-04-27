@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <vector>
 #include <map>
+#include <utility>
 
 using namespace std;
 
@@ -154,7 +155,7 @@ int main()
 
 // Initialize all class members in the initialization list
 Account::Account(string fname, string lname, float balance)
-    : accountNumber(++NextAccountNumber), firstName(fname), lastName(lname), balance(balance)
+    : accountNumber(++NextAccountNumber), firstName(std::move(fname)), lastName(std::move(lname)), balance(balance)
 {
     // Body intentionally left empty as initialization is done in the list
 }
