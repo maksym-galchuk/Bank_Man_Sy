@@ -88,6 +88,19 @@ private:
     map<long, Account> accounts;
 public:
     Bank();
+
+    // Copy constructor
+    Bank(const Bank& other) = default;
+
+    // Copy assignment operator
+    Bank& operator=(const Bank& other) = default;
+
+    // Move constructor
+    Bank(Bank&& other) noexcept = default;
+
+    // Move assignment operator
+    Bank& operator=(Bank&& other) noexcept = default;
+
     Account OpenAccount(const string& fname, const string& lname, float balance);
     Account BalanceEnquiry(long accountNumber) const;
     Account Deposit(long accountNumber, float amount);
