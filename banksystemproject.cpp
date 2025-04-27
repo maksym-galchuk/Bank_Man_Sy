@@ -39,6 +39,7 @@ public:
     static long getLastAccountNumber();
 
     // Friend declarations for operator overloading
+    // Hidden friend declarations inside the class scope
     friend ofstream& operator<<(ofstream& ofs, const Account& acc);
     friend ifstream& operator>>(ifstream& ifs, Account& acc);
     friend ostream& operator<<(ostream& os, const Account& acc);
@@ -218,6 +219,7 @@ Bank::Bank()
         return;
     }
 
+    // Structured binding declaration for better readability
     while (!infile.eof())
     {
         infile >> account;
@@ -236,9 +238,10 @@ Account Bank::OpenAccount(const string& fname, const string& lname, float balanc
 
     outfile.open("Bank.data", ios::trunc);
 
-    for (const auto& pair : accounts)
+    // Use structured binding for better readability
+    for (const auto& [accountNumber, accountObj] : accounts)
     {
-        outfile << pair.second;
+        outfile << accountObj;
     }
 
     outfile.close();
@@ -274,9 +277,10 @@ void Bank::CloseAccount(long accountNumber)
 
 void Bank::ShowAllAccounts() const
 {
-    for (const auto& pair : accounts)
+    // Use structured binding for better readability
+    for (const auto& [accountNumber, accountObj] : accounts)
     {
-        cout << "Account " << pair.first << endl << pair.second << endl;
+        cout << "Account " << accountNumber << endl << accountObj << endl;
     }
 }
 
@@ -285,9 +289,10 @@ Bank::~Bank()
     ofstream outfile;
     outfile.open("Bank.data", ios::trunc);
 
-    for (const auto& pair : accounts)
+    // Use structured binding for better readability
+    for (const auto& [accountNumber, accountObj] : accounts)
     {
-        outfile << pair.second;
+        outfile << accountObj;
     }
 
     outfile.close();
