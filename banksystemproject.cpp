@@ -27,6 +27,18 @@ public:
     // Constructor with initialization list
     Account(string fname, string lname, float balance);
 
+    // Copy constructor
+    Account(const Account& other) = default;
+
+    // Copy assignment operator
+    Account& operator=(const Account& other) = default;
+
+    // Move constructor
+    Account(Account&& other) noexcept = default;
+
+    // Move assignment operator
+    Account& operator=(Account&& other) noexcept = default;
+
     // Accessor methods with const qualifier
     long getAccNo() const { return accountNumber; }
     string getFirstName() const { return firstName; }
@@ -39,11 +51,33 @@ public:
     static void setLastAccountNumber(long accountNumber);
     static long getLastAccountNumber();
 
-    // Friend declarations for operator overloading
-    // Hidden friend declarations inside the class scope
-    friend ofstream& operator<<(ofstream& ofs, const Account& acc);
-    friend ifstream& operator>>(ifstream& ifs, Account& acc);
-    friend ostream& operator<<(ostream& os, const Account& acc);
+    // Hidden friend declarations inside the class
+    friend ofstream& operator<<(ofstream& ofs, const Account& acc)
+    {
+        ofs << acc.accountNumber << endl;
+        ofs << acc.firstName << endl;
+        ofs << acc.lastName << endl;
+        ofs << acc.balance << endl;
+        return ofs;
+    }
+
+    friend ifstream& operator>>(ifstream& ifs, Account& acc)
+    {
+        ifs >> acc.accountNumber;
+        ifs >> acc.firstName;
+        ifs >> acc.lastName;
+        ifs >> acc.balance;
+        return ifs;
+    }
+
+    friend ostream& operator<<(ostream& os, const Account& acc)
+    {
+        os << "First Name:" << acc.getFirstName() << endl;
+        os << "Last Name:" << acc.getLastName() << endl;
+        os << "Account Number:" << acc.getAccNo() << endl;
+        os << "Balance:" << acc.getBalance() << endl;
+        return os;
+    }
 };
 
 long Account::NextAccountNumber = 0;
@@ -68,7 +102,8 @@ int main()
     Bank b;
     Account acc;
     int choice;
-    string fname, lname;
+    string fname;
+    string lname;
     long accountNumber;
     float balance;
     float amount;
@@ -180,33 +215,6 @@ void Account::setLastAccountNumber(long accountNumber)
 long Account::getLastAccountNumber()
 {
     return NextAccountNumber;
-}
-
-ofstream& operator<<(ofstream& ofs, const Account& acc)
-{
-    ofs << acc.accountNumber << endl;
-    ofs << acc.firstName << endl;
-    ofs << acc.lastName << endl;
-    ofs << acc.balance << endl;
-    return ofs;
-}
-
-ifstream& operator>>(ifstream& ifs, Account& acc)
-{
-    ifs >> acc.accountNumber;
-    ifs >> acc.firstName;
-    ifs >> acc.lastName;
-    ifs >> acc.balance;
-    return ifs;
-}
-
-ostream& operator<<(ostream& os, const Account& acc)
-{
-    os << "First Name:" << acc.getFirstName() << endl;
-    os << "Last Name:" << acc.getLastName() << endl;
-    os << "Account Number:" << acc.getAccNo() << endl;
-    os << "Balance:" << acc.getBalance() << endl;
-    return os;
 }
 
 Bank::Bank()
